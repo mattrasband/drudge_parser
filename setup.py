@@ -7,7 +7,13 @@ setup(name='drudge_parser',
       author='Matt Rasband',
       author_email='matt.rasband@gmail.com',
       url='https://github.com/mrasband/drudge_parser',
-      modules=['drudge_parser'],
+      packages=['drudge_parser'],
+      classifiers=[
+          'Programming Language :: Python :: 3',
+          'License :: OSI Approved :: MIT License',
+          'Intended Audience :: Developers',
+          'Development Status :: 3 - Alpha',
+      ],
       install_requires=[
           'beautifulsoup4',
           'html5lib'
