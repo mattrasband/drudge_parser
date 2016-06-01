@@ -7,6 +7,8 @@ setup(name='drudge_parser',
       author='Matt Rasband',
       author_email='matt.rasband@gmail.com',
       url='https://github.com/mrasband/drudge_parser',
+      download_url='https://github.com/mrasband/drudge_parser/archive/v1.0.tar.gz',
+      keywords=['parsing', 'webscraping', 'drudge', 'drudgereport'],
       packages=['drudge_parser'],
       classifiers=[
           'Programming Language :: Python :: 3',
