@@ -1,0 +1,1 @@
+A pretty simple parser for [Drudge Report](http://drudgereport.com). I find the site impossible to look at and wanted a way to more easily digest the information, as I like to keep tabs on lots of differing news outlets.
