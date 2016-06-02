@@ -1,5 +1,7 @@
 A pretty simple parser for [Drudge Report](http://drudgereport.com). I find the site impossible to look at and wanted a way to more easily digest the information, as I like to keep tabs on lots of differing news outlets.
 
+This library has no external dependencies and supports Python 2.7+ (targeted for Python 3+)
+
 
 ## Installation
 
@@ -7,18 +9,34 @@ PyPI
 
     pip install drudge_parser
 
-Note: This is only compatible with Python3+ (they added context manager support to [`urlopen`](https://docs.python.org/3.5/library/urllib.request.html#module-urllib.request) in the stdlib)
-
 
 ## Usage
 
     import drudge_parser
 
-    # scrape_site is a generator of (Article, Image)
-    articles = drudge_parser.scrape_site()
+    # You can use and feed the parser directly if you would like:
+    parser = drudge_parser.DrudgeParser()
+    parser.feed('<html string>')
+    print(parser.articles)
 
-    for article, image in articles:
-        # image may be None, if none was found that is considered as
-        # related to the article. In many cases, the same image will
-        # be yielded for multiple articles.
-        print(article, image)
+    # Or just use the helper to scrape the current site:
+    articles = drudge_parser.scrape_page()
+    print(articles)
+
+Articles is a list of article groupings. These are ordered down the page, so they will always be TOP\_STORY, MAIN\_HEADLINE, followed by COLUMN (note that the column number is not included, there does not appear to be any real distinguishing reason for the separation).
+
+An article grouping looks like:
+
+    {
+        "images": [str],  # This often is just empty, never None
+        "articles": [
+            #  These will be ordered by appearance, in some cases drudge
+            #  builds related titles on each other
+            {
+                "title": str,
+                "href": str
+            }
+        ],  # Never None
+        "location": str  # One of the drudge_parser.Location 'enumeration'
+    }
+

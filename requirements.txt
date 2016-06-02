@@ -1,5 +1,7 @@
-beautifulsoup4==4.4.1
-html5lib==0.9999999
+apipkg==1.4
+execnet==1.4.1
 py==1.4.31
-pytest==2.9.1
-six==1.10.0
+pytest==2.9.2
+pytest-sugar==0.7.1
+pytest-xdist==1.14
+termcolor==1.1.0
