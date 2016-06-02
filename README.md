@@ -7,6 +7,8 @@ PyPI
 
     pip install drudge_parser
 
+Note: This is only compatible with Python3+ (they added context manager support to [`urlopen`](https://docs.python.org/3.5/library/urllib.request.html#module-urllib.request) in the stdlib)
+
 
 ## Usage
 
