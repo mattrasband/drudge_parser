@@ -2,7 +2,7 @@ from distutils.core import setup
 
 
 setup(name='drudge_parser',
-      version='2.1',
+      version='3.0',
       description='Naive parser for the Drudge Report',
       author='Matt Rasband',
       author_email='matt.rasband@gmail.com',
@@ -10,7 +10,7 @@ setup(name='drudge_parser',
       maintainer_email='matt.rasband@gmail.com',
       license='MIT',
       url='https://github.com/mrasband/drudge_parser',
-      download_url='https://github.com/mrasband/drudge_parser/archive/v2.1.tar.gz',
+      download_url='https://github.com/mrasband/drudge_parser/archive/v3.0.tar.gz',
       keywords=['parsing', 'webscraping', 'drudge', 'drudgereport'],
       py_modules=['drudge_parser'],
       classifiers=[

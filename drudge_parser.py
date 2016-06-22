@@ -16,7 +16,9 @@ class Location:
     """
     TOP_STORY = 'TOP_STORY'
     MAIN_HEADLINE = 'MAIN_HEADLINE'
-    COLUMN = 'COLUMN'
+    COLUMN1 = 'COLUMN1'
+    COLUMN2 = 'COLUMN2'
+    COLUMN3 = 'COLUMN3'
 
 
 class DrudgeParser(HTMLParser):
@@ -103,6 +105,8 @@ class DrudgeParser(HTMLParser):
             'location': None,
         }
 
+        self.column_num = 1
+
     def handle_starttag(self, tag, attrs):
         if tag in ('img', 'iframe'):
             # This is going to be media content, usually images and
@@ -118,6 +122,12 @@ class DrudgeParser(HTMLParser):
                     # move into a state in which we skip everything until we
                     # see the end of the column, resetting us to care.
                     self.skip = not self.skip
+                    if self.skip:
+                        self.column_num += 1
+                        if self.column_num == 2:
+                            self.location = Location.COLUMN2
+                        else:
+                            self.location = Location.COLUMN3
                 elif not (self.skip or any(x in href for x in self.HREF_BLACKLIST)):
                     # We found an article and want to grab it.
                     self.want = True
@@ -134,7 +144,7 @@ class DrudgeParser(HTMLParser):
                 self.location = Location.MAIN_HEADLINE
                 self._reset_last()
             elif ('id', 'app_col1') in attrs:
-                self.location = Location.COLUMN
+                self.location = Location.COLUMN1
                 self._reset_last()
         elif tag == 'hr':
             # We have crossed into a new section, snap off the related
