@@ -1,18 +1,20 @@
-![TravisCI Build](https://travis-ci.org/mrasband/drudge_parser.svg?branch=master)
+.. image:: https://travis-ci.org/mrasband/drudge_parser.svg?branch=master
 
 A pretty simple parser for [Drudge Report](http://drudgereport.com). I find the site impossible to look at and wanted a way to more easily digest the information, as I like to keep tabs on lots of differing news outlets.
 
 This library has no external dependencies and supports Python 2.7+ (targeted for Python 3+)
 
 
-## Installation
+Installation
+============
 
 PyPI
 
     pip install drudge_parser
 
 
-## Usage
+Usage
+=====
 
     import drudge_parser
 
