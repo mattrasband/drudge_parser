@@ -1,9 +1,8 @@
 .. image:: https://travis-ci.org/mrasband/drudge_parser.svg?branch=master
 
-A pretty simple parser for [Drudge Report](http://drudgereport.com). I find the site impossible to look at and wanted a way to more easily digest the information, as I like to keep tabs on lots of differing news outlets.
+A pretty simple parser for `Drudge Report <http://drudgereport.com>`_. I find the site impossible to look at and wanted a way to more easily digest the information, as I like to keep tabs on lots of differing news outlets.
 
 This library has no external dependencies and supports Python 2.7+ (targeted for Python 3+)
-
 
 Installation
 ============
@@ -16,6 +15,8 @@ PyPI
 Usage
 =====
 
+Example::
+
     import drudge_parser
 
     # You can use and feed the parser directly if you would like:
@@ -27,15 +28,16 @@ Usage
     articles = drudge_parser.scrape_page()
     print(articles)
 
-Articles is a list of article groupings. These are ordered down the page, so they will always be TOP\_STORY, MAIN\_HEADLINE, followed by COLUMN (note that the column number is not included, there does not appear to be any real distinguishing reason for the separation).
+Articles is a list of article groupings. These are ordered down the page, so they will always be ``TOP_STORY``, ``MAIN_HEADLINE``, followed by ``COLUMN{1,3}``.
 
-An article grouping looks like:
+An article grouping looks like::
 
     {
         "images": [str],  # This often is just empty, never None
         "articles": [
             #  These will be ordered by appearance, in some cases drudge
-            #  builds related titles on each other
+            #  builds related titles on each other to make one link across
+            #  multiple lines.
             {
                 "title": str,
                 "href": str
