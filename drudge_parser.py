@@ -75,14 +75,17 @@ class DrudgeParser(HTMLParser):
     # the evens are the ENTER condition (start skipping)
     # and the odds are the EXIT condition (stop skipping)
     HREF_BLACKLIST_SWITCH = [
-        'http://hosted.ap.org/dynamic/fronts/HOME?SITE=AP&SECTION=HOME',
-        'http://www.x17online.com',
-        'http://wabcradio.com/',
+    # COL 1
+        'http://www.thepaperboy.com/uk/front-pages.cfm',
+        'http://www.zerohedge.com/',
+    # COL 2
+        'http://www.mirror.co.uk/3am/',
         'http://www.suntimes.com/entertainment/zwecker/index.html',
+    # COL 3
         'http://www.france24.com/en/timeline/global/',
         'http://www.intermarkets.net/privacypolicy.html',
     ]
-
+    
     # these are partial matches that are just to be ignored
     # for the one iteration, but otherwise have no longlasting
     # meaning.
