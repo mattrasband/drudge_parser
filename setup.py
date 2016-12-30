@@ -1,8 +1,11 @@
 from setuptools import setup
 
 
+__version__ = '3.0.2'
+
+
 setup(name='drudge_parser',
-      version='3.0.1',
+      version=__version__,
       description='Naive parser for the Drudge Report',
       author='Matt Rasband',
       author_email='matt.rasband@gmail.com',
@@ -10,7 +13,7 @@ setup(name='drudge_parser',
       maintainer_email='matt.rasband@gmail.com',
       license='MIT',
       url='https://github.com/mrasband/drudge_parser',
-      download_url='https://github.com/mrasband/drudge_parser/archive/v3.0.1.tar.gz',
+      download_url='https://github.com/mrasband/drudge_parser/archive/v' + __version__ + '.tar.gz',
       keywords=['parsing', 'webscraping', 'drudge', 'drudgereport'],
       py_modules=['drudge_parser'],
       classifiers=[
