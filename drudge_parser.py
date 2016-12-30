@@ -31,8 +31,7 @@ class DrudgeParser(HTMLParser):
 
     The articles property will be an ordered list of grouped elements on the
     page, beginning with the Top Stories (TOP_STORY), Main Headline
-    (MAIN_HEADLINE), and then Columns 1-3 (COLUMN) undiferentiated (they don't
-    appear to have any real meaning between the three).
+    (MAIN_HEADLINE), and then Columns 1-3 (COLUMN#).
 
     The grouped element is simply a dictionary:
 
@@ -75,17 +74,17 @@ class DrudgeParser(HTMLParser):
     # the evens are the ENTER condition (start skipping)
     # and the odds are the EXIT condition (stop skipping)
     HREF_BLACKLIST_SWITCH = [
-    # COL 1
+        # COL 1
         'http://www.thepaperboy.com/uk/front-pages.cfm',
         'http://www.zerohedge.com/',
-    # COL 2
+        # COL 2
         'http://www.mirror.co.uk/3am/',
         'http://www.suntimes.com/entertainment/zwecker/index.html',
-    # COL 3
+        # COL 3
         'http://www.france24.com/en/timeline/global/',
         'http://www.intermarkets.net/privacypolicy.html',
     ]
-    
+
     # these are partial matches that are just to be ignored
     # for the one iteration, but otherwise have no longlasting
     # meaning.
