@@ -46,3 +46,7 @@ An article grouping looks like::
         "location": str  # One of the drudge_parser.Location 'enumeration'
     }
 
+Additional Contributors
+=======================
+
+* [jamesjackson69](https://github.com/jamesjackson69)
