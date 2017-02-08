@@ -49,4 +49,4 @@ An article grouping looks like::
 Additional Contributors
 =======================
 
-* [jamesjackson69](https://github.com/jamesjackson69)
+* `jamesjackson69 <https://github.com/jamesjackson69>`_
