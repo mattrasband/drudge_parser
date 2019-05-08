@@ -1,7 +1,7 @@
 from setuptools import setup
 
 
-__version__ = '3.0.2'
+__version__ = '4.0.0'
 
 
 setup(name='drudge_parser',
@@ -14,6 +14,7 @@ setup(name='drudge_parser',
       license='MIT',
       url='https://github.com/mrasband/drudge_parser',
       download_url='https://github.com/mrasband/drudge_parser/archive/v' + __version__ + '.tar.gz',
+      python_requires=">=3.6",
       keywords=['parsing', 'webscraping', 'drudge', 'drudgereport'],
       py_modules=['drudge_parser'],
       classifiers=[

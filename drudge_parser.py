@@ -1,15 +1,11 @@
 #!/usr/bin/env python
-
-import contextlib
-try:
-    from html.parser import HTMLParser
-    from urllib.request import urlopen
-except ImportError:
-    from HTMLParser import HTMLParser  # noqa
-    from urllib2 import urlopen  # noqa
+from enum import Enum, unique
+from html.parser import HTMLParser
+from urllib.request import Request, urlopen
 
 
-class Location:
+@unique
+class Location(Enum):
     """Location constants for locations on the page,
     not using an Enum to maintain backwards compat with
     the stdlib.
@@ -66,23 +62,7 @@ class DrudgeParser(HTMLParser):
         'widget.quantcast.com',
         'pixel.quantserve.com',
         'http://www.drudgereport.com/i/logo9.gif',
-    ]
-
-    # these are entire href matches that trigger
-    # a state of "skipping" the links/data until
-    # triggered back out. From a standard 0 index,
-    # the evens are the ENTER condition (start skipping)
-    # and the odds are the EXIT condition (stop skipping)
-    HREF_BLACKLIST_SWITCH = [
-        # COL 1
-        'http://www.thepaperboy.com/uk/front-pages.cfm',
-        'http://www.zerohedge.com/',
-        # COL 2
-        'http://www.mirror.co.uk/3am/',
-        'http://www.suntimes.com/entertainment/zwecker/index.html',
-        # COL 3
-        'http://www.france24.com/en/timeline/global/',
-        'http://www.intermarkets.net/privacypolicy.html',
+        'https://www.drudgereport.com/i/logo9.gif',
     ]
 
     # these are partial matches that are just to be ignored
@@ -91,11 +71,12 @@ class DrudgeParser(HTMLParser):
     HREF_BLACKLIST = [
         'adserver.adtechus.com',
         'www.quantcast.com',
-        'http://www.drudgereport.com/',
+        'http://www.drudgereport.com',
+        'https://www.drudgereport.com',
     ]
 
     def __init__(self):
-        HTMLParser.__init__(self)
+        super().__init__()
         self.location = None
         self.want = False
         self.skip = False
@@ -119,18 +100,7 @@ class DrudgeParser(HTMLParser):
         elif tag == 'a':
             href = self._find_attr_value(attrs, 'href')
             if href:
-                if any(x == href for x in self.HREF_BLACKLIST_SWITCH):
-                    # The static links in each of the columns triggers us to
-                    # move into a state in which we skip everything until we
-                    # see the end of the column, resetting us to care.
-                    self.skip = not self.skip
-                    if self.skip:
-                        self.column_num += 1
-                        if self.column_num == 2:
-                            self.location = Location.COLUMN2
-                        else:
-                            self.location = Location.COLUMN3
-                elif not (self.skip or any(x in href for x in self.HREF_BLACKLIST)):
+                if not (self.skip or any(x in href for x in self.HREF_BLACKLIST)):
                     # We found an article and want to grab it.
                     self.want = True
                     self.last['location'] = self.location
@@ -138,20 +108,32 @@ class DrudgeParser(HTMLParser):
                         'href': href.strip(),
                         'title': '',
                     })
-        elif tag == 'div':
-            if ('id', 'app_topstories') in attrs:
-                self.location = Location.TOP_STORY
-                self._reset_last()
-            elif ('id', 'app_mainheadline') in attrs:
-                self.location = Location.MAIN_HEADLINE
-                self._reset_last()
-            elif ('id', 'app_col1') in attrs:
-                self.location = Location.COLUMN1
+        elif tag == 'td':
+            # they use 3 even columns
+            if ('width', '33%') in attrs:
+                self.skip = False
+                if self.location in [Location.MAIN_HEADLINE, Location.TOP_STORY]:
+                    self.location = Location.COLUMN1
+                elif self.location == Location.COLUMN1:
+                    self.location = Location.COLUMN2
+                elif self.location == Location.COLUMN2:
+                    self.location = Location.COLUMN3
                 self._reset_last()
         elif tag == 'hr':
             # We have crossed into a new section, snap off the related
             # articles/images
             self._reset_last()
+
+    def handle_comment(self, data):
+        combined = data.replace(" ", "")
+        if "TOP LEFT" in data:
+            self.location = Location.TOP_STORY
+            self._reset_last()
+        elif "MAIN HEADLINE" in data:
+            self.location = Location.MAIN_HEADLINE
+            self._reset_last()
+        elif combined.startswith("LINKS") and combined.endswith("COLUMN"):
+            self.skip = True
 
     def handle_endtag(self, tag):
         self.want = False
@@ -184,9 +166,8 @@ class DrudgeParser(HTMLParser):
 
 
 def scrape_page():
-    with contextlib.closing(urlopen('http://drudgereport.com')) as page:  # py2 compat
-        assert page.getcode() == 200, \
-            'Bad response from the page, try again later.'
+    req = Request('https://drudgereport.com', headers={"User-Agent": "Mozilla/5.0"})
+    with urlopen(req) as page:
         p = DrudgeParser()
         source = page.read()
         if isinstance(source, bytes):  # py3 compat
@@ -197,4 +178,4 @@ def scrape_page():
 
 if __name__ == '__main__':
     import json
-    print(json.dumps(scrape_page(), indent=4))
+    print(json.dumps(scrape_page(), indent=4, default=str))
