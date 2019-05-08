@@ -9,7 +9,7 @@ static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 
 
 @pytest.mark.parametrize('filename, top_count, main_count, col1_count, col2_count, col3_count', (
-    (os.path.join(static_dir, 'page_2016_12_30.html'), 4, 3, 14, 15, 13),
+    (os.path.join(static_dir, 'page_2019_05_07.html'), 0, 3, 15, 16, 11),
 ))
 def test_parse(filename, top_count, main_count, col1_count, col2_count,
                col3_count):

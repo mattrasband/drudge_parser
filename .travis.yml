@@ -1,3 +1,4 @@
+dist: xenial
 language: python
 sudo: false
 install:
@@ -6,4 +7,4 @@ script:
     - tox
 matrix:
     include:
-        - python: 3.6
+        - python: 3.7
